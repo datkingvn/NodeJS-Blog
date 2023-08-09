@@ -25,7 +25,7 @@ router.get('', async (req, res) => {
             locals,
             data,
             current: page,
-            nextPage: hasNextPage ? nextPage : null
+            nextPage: hasNextPage ? nextPage : null // hasNextPage => true => nextPage / false => null
         });
     } catch (e) {
         console.log(e)
@@ -33,19 +33,52 @@ router.get('', async (req, res) => {
 });
 
 
-// router.get('', async (req, res) => {
-//     const locals = {
-//         title: "NodeJS Blog",
-//         description: "This is Blog make by NodeJS - Tran Manh Dat"
-//     }
-//
-//     try {
-//         const data = await Post.find(); // Truy vấn CSDL và lấy all bài viết từ model "Post"
-//         res.render('index', {locals, data});
-//     } catch (e) {
-//         console.log(e)
-//     }
-// });
+// Get /post:id
+router.get('/post/:id', async (req, res) => {
+    try {
+        let slug = req.params.id
+
+        const data = await Post.findById({_id: slug});
+
+        const locals = {
+            title: data.title,
+            description: "This is Blog make by NodeJS - Tran Manh Dat"
+        }
+
+        res.render('post', {locals, data});
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+// POST /searchTerm
+router.post('/search', async (req, res) => {
+    try {
+        const locals = {
+            title: "Search",
+            description: "This is Blog make by NodeJS - Tran Manh Dat"
+        }
+
+        let searchTerm = req.body.searchTerm;
+        const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "")
+
+        const data = await Post.find({
+            $or: [
+  // Use $regex operator để tìm các bài viết có trường "title/body" khớp với biểu thức chính quy
+                {title: {$regex: new RegExp(searchNoSpecialChar, 'i')}},
+                {body: {$regex: new RegExp(searchNoSpecialChar, 'i')}},
+            ]
+        });
+
+        res.render('search', {
+            data,
+            locals
+        });
+    } catch (e) {
+        console.log(e)
+    }
+});
+
 
 
 // function insertPostData() {
