@@ -270,30 +270,44 @@ img {
 /* SearchBar */
 .searchBar {
     visibility: hidden;
-    transform: translateY(-100px);
+    transform: translateY(-100%);
     background-color: var(--black);
-    padding: 4px 0;
+    padding: 10px;
     position: absolute;
     left: 0;
     right: 0;
+    transition: transform 0.3s ease;
+    z-index: 999;
 }
 
 .searchBar.open {
+    visibility: visible;
     transform: translateY(0);
-    transition: transform 0.1s;
 }
 
 .searchBar input {
     margin: 0;
-    padding: 0;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid white; /* Thêm bo viền màu trắng */
+    background-color: transparent;
+    color: var(--gray-light);
+    font-size: 16px;
 }
 
 #searchClose {
     position: absolute;
-    top: 0;
-    right: 0;
-    color: var(--gray-light);
-    padding: 15px;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#searchClose:hover {
+    color: var(--gray);
+    transform: scale(1.2); /* Tăng kích thước khi hover */
 }
 
 /* Dashboard Admin */
