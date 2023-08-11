@@ -9,7 +9,7 @@ router.get('', async (req, res) => {
         description: "This is Blog make by NodeJS - Tran Manh Dat"
     }
 
-    let perPage = 3;
+    let perPage = 5;
     let page = req.query.page || 1;
 
     const data = await Post.aggregate([{$sort: {createdAt: -1}}])
@@ -26,7 +26,6 @@ router.get('', async (req, res) => {
             data,
             current: page,
             nextPage: hasNextPage ? nextPage : null, // hasNextPage => true => nextPage / false => null
-            currentRoute: '/'
         });
     } catch (e) {
         console.log(e)
@@ -44,7 +43,6 @@ router.get('/post/:id', async (req, res) => {
         const locals = {
             title: data.title,
             description: "This is Blog make by NodeJS - Tran Manh Dat",
-            currentRoute: `/post/${slug}`
         }
 
         res.render('post', {locals, data});
@@ -82,10 +80,10 @@ router.post('/search', async (req, res) => {
 });
 
 router.get('/about', (req, res) => {
-    res.render('about', {
-        currentRoute: `/about}`
-    });
+    res.render('about');
 });
-
+router.get('/contact', (req, res) => {
+    res.render('contact');
+    });
 module.exports = router;
 
