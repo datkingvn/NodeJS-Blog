@@ -30,10 +30,9 @@ const authMiddleware = (req, res, next) => {
 // GET Admin - Login Page
 router.get('/admin', async (req, res) => {
     const locals = {
-        title: "Admin",
-        description: "This is Blog make by NodeJS - Tran Manh Dat"
+        title: "Admin", description: "This is Blog make by NodeJS - Tran Manh Dat"
     }
-    
+
     try {
         res.render('admin/index', {locals, layout: adminLayout})
     } catch (e) {
@@ -68,28 +67,56 @@ router.post('/admin', async (req, res) => {
     }
 });
 
-// POST Admin - Check Login
+// GET Admin Dashboard
 router.get('/dashboard', authMiddleware, async (req, res) => {
 
-    res.render('admin/dashboard');
+    try {
+        const locals = {
+            title: "Dashboard Admin", description: "This is Blog make by NodeJS - Tran Manh Dat"
+        }
 
+        const data = await Post.find();
+        res.render('admin/dashboard', {locals, data});
+    } catch (e) {
+        console.log(e)
+    }
 });
 
-// router.post('/admin', async (req, res) => {
-//     try {
-//         const {username, password} = req.body;
-//
-//         if (req.body.username === 'admin' && req.body.password === 'password') {
-//             res.send('You are logged in')
-//         } else {
-//             res.send('Wrong Username or Password')
-//         }
-//
-//     } catch (e) {
-//         console.log(e)
-//     }
-// });
+// GET Admin - Create New Post
+router.get('/add-post', authMiddleware, async (req, res) => {
 
+    try {
+        const locals = {
+            title: "Add Post - Dashboard Admin", description: "This is Blog make by NodeJS - Tran Manh Dat"
+        }
+
+        const data = await Post.find();
+        res.render('admin/add-post', {locals, layout: adminLayout});
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+// POST Admin - Create New Post
+router.post('/add-post', authMiddleware, async (req, res) => {
+
+    try {
+        console.log(req.body)
+
+        try {
+            const newPost = new Post({
+                title: req.body.title, body: req.body.body
+            });
+            await Post.create(newPost);
+            res.redirect('/dashboard')
+        } catch (e) {
+            console.log(e);
+        }
+
+    } catch (e) {
+        console.log(e)
+    }
+});
 
 // POST Admin - Register
 router.post('/register', async (req, res) => {
@@ -103,7 +130,7 @@ router.post('/register', async (req, res) => {
             })
             res.status(201).json({message: 'User Created', user})
         } catch (e) {
-            if (e.code === 11000 ) {
+            if (e.code === 11000) {
                 res.status(409).json({message: 'User already in use'})
             }
             res.status(500).json({message: 'Internal Server Error'})
