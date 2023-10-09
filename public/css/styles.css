@@ -16,8 +16,7 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--black);
     font-size: var(--font-size-base);
-    background-color: #FAF5EE;
-    background-image: url("/img/img-noise-361x370.png");
+    background-color: #F8F3EC;
     margin: 0;
 }
 
@@ -289,25 +288,34 @@ img {
     margin: 0;
     padding: 8px;
     width: 100%;
-    border: 1px solid white; /* Thêm bo viền màu trắng */
-    background-color: transparent;
     color: var(--gray-light);
     font-size: 16px;
+    background: rgba(244, 244, 244, .79);
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 4px 9px rgba(0, 0, 0, .37);
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 
 #searchClose {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
     color: white;
     font-size: 20px;
     cursor: pointer;
     transition: color 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    padding: 6px;
+    border-radius: 50%;
 }
 
 #searchClose:hover {
     color: var(--gray);
-    transform: scale(1.2); /* Tăng kích thước khi hover */
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.2);
 }
 
 /* Dashboard Admin */
